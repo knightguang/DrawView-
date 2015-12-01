@@ -84,9 +84,26 @@
     
 }
 
+
+#define kMaxY 60
+
 #pragma mark - 3.当手指偏移，根据x轴的偏移量算出当前主视图的frame
 - (void)getCurrentFrameWithOffsetX:(CGFloat)OffsetX
 {
+    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
+    
+    // 获取y轴偏移量，手指每移动一点，y轴偏移多少
+    CGFloat offsetY = OffsetX * kMaxY / screenW;
+    
+    CGFloat scale = (screenH - 2 * offsetY) / screenH;
+    
+    // 获取之前的frame
+    CGRect frame = mainView.frame;
+    frame.origin.x += OffsetX;
+    frame.size.height = frame.size.height * scale;
+    frame.size.width = frame.size.width * scale;
+    frame.origin.y = (screenH - frame.size.height) * 0.5;
     
 }
 
