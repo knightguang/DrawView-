@@ -9,12 +9,8 @@
 #import "DrawViewController.h"
 
 @interface DrawViewController ()
-{
-    UIView *mainView;
-    UIView *leftView;
-    UIView *rightView;
-}
 
+@property (nonatomic, assign) BOOL isTarget;
 
 @end
 
@@ -28,22 +24,22 @@
     [self configChlidView];
     
     // 2.监听
-    [mainView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
+    [_mainView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSLog(@"%@", NSStringFromCGRect(mainView.frame));
+//    NSLog(@"%@", NSStringFromCGRect(mainView.frame));
     
-    if (mainView.frame.origin.x < 0) {// 左移
+    if (_mainView.frame.origin.x < 0) {// 左移
         // 显示右边view
-        rightView.hidden = NO;
-        leftView.hidden = YES;
-    } else if (mainView.frame.origin.x > 0) {// 右移
+        _rightView.hidden = NO;
+        _leftView.hidden = YES;
+    } else if (_mainView.frame.origin.x > 0) {// 右移
         // 显示左边view
-        leftView.hidden = NO;
-        rightView.hidden = YES;
+        _leftView.hidden = NO;
+        _rightView.hidden = YES;
     }
 }
 
@@ -51,17 +47,20 @@
 - (void)configChlidView
 {
     CGRect frame = self.view.frame;
-    leftView = [[UIView alloc] initWithFrame:frame];
+    UIView *leftView = [[UIView alloc] initWithFrame:frame];
     leftView.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:leftView];
+    _leftView = leftView;
+    [self.view addSubview:_leftView];
     
-    rightView = [[UIView alloc] initWithFrame:frame];
+    UIView *rightView = [[UIView alloc] initWithFrame:frame];
     rightView.backgroundColor = [UIColor redColor];
-    [self.view addSubview:rightView];
+    _rightView = rightView;
+    [self.view addSubview:_rightView];
     
-    mainView = [[UIView alloc] initWithFrame:frame];
+    UIView *mainView = [[UIView alloc] initWithFrame:frame];
     mainView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:mainView];
+    _mainView = mainView;
+    [self.view addSubview:_mainView];
     
 }
 
@@ -78,36 +77,87 @@
     CGFloat offsetX = point.x - prePoint.x;
     
     // 获取主视图的frame
-    CGRect frame = mainView.frame;
-    frame.origin.x += offsetX;
-    mainView.frame = frame;
+//    CGRect frame = mainView.frame;
+//    frame.origin.x += offsetX;
+    _mainView.frame = [self getCurrentFrameWithOffsetX:offsetX];
+    
+    _isTarget = YES;;
     
 }
 
 
-#define kMaxY 60
-
 #pragma mark - 3.当手指偏移，根据x轴的偏移量算出当前主视图的frame
-- (void)getCurrentFrameWithOffsetX:(CGFloat)OffsetX
+- (CGRect)getCurrentFrameWithOffsetX:(CGFloat)OffsetX
 {
-    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
-    CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
+    
     
     // 获取y轴偏移量，手指每移动一点，y轴偏移多少
-    CGFloat offsetY = OffsetX * kMaxY / screenW;
+    CGFloat offsetY = OffsetX / kScreenW * kMaxY;
     
-    CGFloat scale = (screenH - 2 * offsetY) / screenH;
+    CGFloat scale = (kScreenH - 2 * offsetY) / kScreenH;
+    
+    if (_mainView.frame.origin.x < 0) {
+        // 往左滑
+        scale = (kScreenH + 2 * offsetY) / kScreenH;
+    }
     
     // 获取之前的frame
-    CGRect frame = mainView.frame;
+    CGRect frame = _mainView.frame;
     frame.origin.x += OffsetX;
     frame.size.height = frame.size.height * scale;
     frame.size.width = frame.size.width * scale;
-    frame.origin.y = (screenH - frame.size.height) * 0.5;
+    frame.origin.y = (kScreenH - frame.size.height) * 0.5;
     
+    return frame;
 }
 
+/**
+ *  mainView.frame.origin.x > 屏幕一半  定位到右边
+ *  CGRectGetMaxX(mainView.frame) < 屏幕一半  定位到左边
+ */
 
+#pragma mark - 定位与复位
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    // 复位
+    if (_isTarget == NO && _mainView.frame.origin.x != 0) {
+        
+        [UIView animateWithDuration:.3 animations:^{
+            
+            _mainView.frame = self.view.bounds;
+        }];
+    }
+    
+    
+    // 定位偏移最终距离
+    CGFloat target = 0;
+    
+    if (_mainView.frame.origin.x > (kScreenW / 2)) {
+        // 左移大于屏幕一半时
+        target = kRightTarget;
+    } else if (CGRectGetMaxX(_mainView.frame) < (kScreenW / 2)) {
+        // 右移小于屏幕一半时
+        target = kLeftTarget;
+    }
+    
+    [UIView animateWithDuration:.3 animations:^{
+        
+        if (target) {
+            // 在需要定位左边或者右边
+            // 获取 x 轴 偏移量 (偏移最终距离 － x)
+            CGFloat offsetX = target - _mainView.frame.origin.x;
+            NSLog(@"%lf", offsetX);
+            //
+            _mainView.frame = [self getCurrentFrameWithOffsetX:offsetX];
+            
+        } else {
+            // 还原
+            _mainView.frame = self.view.bounds;
+        }
+    }];
+    
+    _isTarget = NO;
+}
 
 
 
