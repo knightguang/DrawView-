@@ -15,6 +15,7 @@
 		6C3B7BB11C0D365000FE5342 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C3B7BAF1C0D365000FE5342 /* LaunchScreen.storyboard */; };
 		6C3B7BBC1C0D365000FE5342 /* DrawView____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3B7BBB1C0D365000FE5342 /* DrawView____Tests.m */; };
 		6C3B7BC71C0D365000FE5342 /* DrawView____UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3B7BC61C0D365000FE5342 /* DrawView____UITests.m */; };
+		6C3B7BD61C0D3AA200FE5342 /* DrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3B7BD51C0D3AA200FE5342 /* DrawViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		6C3B7BC21C0D365000FE5342 /* DrawView抽屉效果UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DrawView抽屉效果UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C3B7BC61C0D365000FE5342 /* DrawView____UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DrawView____UITests.m"; sourceTree = "<group>"; };
 		6C3B7BC81C0D365000FE5342 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C3B7BD41C0D3AA200FE5342 /* DrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawViewController.h; sourceTree = "<group>"; };
+		6C3B7BD51C0D3AA200FE5342 /* DrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,8 @@
 				6C3B7BA51C0D365000FE5342 /* AppDelegate.m */,
 				6C3B7BA71C0D365000FE5342 /* ViewController.h */,
 				6C3B7BA81C0D365000FE5342 /* ViewController.m */,
+				6C3B7BD41C0D3AA200FE5342 /* DrawViewController.h */,
+				6C3B7BD51C0D3AA200FE5342 /* DrawViewController.m */,
 				6C3B7BAA1C0D365000FE5342 /* Main.storyboard */,
 				6C3B7BAD1C0D365000FE5342 /* Assets.xcassets */,
 				6C3B7BAF1C0D365000FE5342 /* LaunchScreen.storyboard */,
@@ -270,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C3B7BD61C0D3AA200FE5342 /* DrawViewController.m in Sources */,
 				6C3B7BA91C0D365000FE5342 /* ViewController.m in Sources */,
 				6C3B7BA61C0D365000FE5342 /* AppDelegate.m in Sources */,
 				6C3B7BA31C0D365000FE5342 /* main.m in Sources */,
@@ -414,6 +420,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "DrawView抽屉效果/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.guang.www.DrawView----";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -425,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "DrawView抽屉效果/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.guang.www.DrawView----";
 				PRODUCT_NAME = "$(TARGET_NAME)";

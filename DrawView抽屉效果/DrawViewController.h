@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DrawViewController.h
 //  DrawView抽屉效果
 //
 //  Created by 光 on 15/12/1.
@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DrawViewController.h"
 
-@interface ViewController : DrawViewController
-
+@interface DrawViewController : UIViewController
 
 @end
-
